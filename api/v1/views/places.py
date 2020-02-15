@@ -71,7 +71,7 @@ def places_with_id(place_id=None):
         return jsonify(place_obj.to_json()), 200
 
 
-@app_views.route('/places_search', methods=['POST'])
+@app_views.route('/places_search', methods=['POST'], strict_slashes=False)
 def places_search():
     """
         places route to handle http method for request to search places
