@@ -150,18 +150,17 @@ $(function () {
 
   $('body').on('click', '.button-reviews', function () {
     if ($(this).text() === 'show') {
-      const reviews = fetchReviews($(this), $(this).parent().parent(),
-      $(this).parent().parent().parent().attr('data-id'));
+      fetchReviews($(this), $(this).parent().parent(),
+        $(this).parent().parent().parent().attr('data-id'));
       $(this).text('hide');
     } else {
       $(this).parent().siblings().remove();
       $(this).text('show');
-
     }
   });
 
   function fetchUserName (userId) {
-    const urlUsers = 'http://0.0.0.0:5001/api/v1/users/' + userId
+    const urlUsers = 'http://0.0.0.0:5001/api/v1/users/' + userId;
     $.ajax({
       type: 'GET',
       url: urlUsers,
@@ -173,7 +172,7 @@ $(function () {
       error: function () {
         return '';
       }
-    })
+    });
   }
 
   function fetchReviews (placeElement, parentElement, placeId) {
@@ -184,14 +183,14 @@ $(function () {
       success: function (data) {
         if ($.isEmptyObject(data)) {
           parentElement.append(
-            `<p>No reviews yet</p>`
-            );
+            '<p>No reviews yet</p>'
+          );
         } else {
           for (const value of data) {
             const userFullName = fetchUserName(value.user_id);
-            const updated_at = value.updated_at.split(' ')[0];
+            const createdAt = value.created_at.split(' ')[0];
             parentElement.append(
-            `<p class="author-review">From <span class="${value.user_id}">${userFullName}</span> on ${updated_at}</p>
+            `<p class="author-review">From <span class="${value.user_id}">${userFullName}</span> on ${createdAt}</p>
              <p>${value.text}</p>`
             );
           }
@@ -199,8 +198,8 @@ $(function () {
       },
       error: function () {
         parentElement.append(
-            `<p>There is an issue fetching the reviews for this place</p>`
-            );
+          '<p>There is an issue fetching the reviews for this place</p>'
+        );
       }
     });
   }
